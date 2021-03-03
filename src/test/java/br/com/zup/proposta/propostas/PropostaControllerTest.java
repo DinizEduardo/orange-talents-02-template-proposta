@@ -2,7 +2,6 @@ package br.com.zup.proposta.propostas;
 
 import br.com.zup.proposta.utils.MockMvcRequest;
 import com.fasterxml.jackson.databind.ObjectMapper;
-import com.fasterxml.jackson.databind.annotation.JsonAppend;
 import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -36,6 +35,7 @@ class PropostaControllerTest {
     @Test
     public void naoDeveriaCadastrarPropostaComDocumentoDuplicado() throws Exception {
         PropostaRequest request = new PropostaRequest("68351808032",
+                "Eduardo Diniz",
                 "eduardo.diniz@zup.com.br",
                 "Rua Costa Barros 2200",
                 1000);
@@ -55,6 +55,7 @@ class PropostaControllerTest {
     public void deveriaCadastrarUmaProposta() throws Exception {
 
         PropostaRequest request = new PropostaRequest("68351808032",
+                "Eduardo Diniz",
                 "eduardo.diniz@zup.com.br",
                 "Rua Costa Barros 2200",
                 1000);
@@ -72,6 +73,7 @@ class PropostaControllerTest {
                 () -> Assertions.assertEquals(proposta.getDocumento(), request.getDocumento()),
                 () -> Assertions.assertEquals(proposta.getEndereco(), request.getEndereco()),
                 () -> Assertions.assertEquals(proposta.getSalario(), request.getSalario()),
+                () -> Assertions.assertEquals(proposta.getNome(), request.getNome()),
                 () -> Assertions.assertEquals(result.getResponse().getHeaders("location").get(0),
                         "http://localhost/propostas/" + proposta.getId())
         );
@@ -81,6 +83,7 @@ class PropostaControllerTest {
     @Test
     public void naoDeveriaCadastrarPropostaSemEmail() throws Exception {
         PropostaRequest request = new PropostaRequest("68351808032",
+                "Eduardo Diniz",
                 "",
                 "Rua Costa Barros 2200",
                 1000);
@@ -95,6 +98,7 @@ class PropostaControllerTest {
     @Test
     public void naoDeveriaCadastrarPropostaComEmailInvalido() throws Exception {
         PropostaRequest request = new PropostaRequest("68351808032",
+                "Eduardo Diniz",
                 "eduardo.diniz",
                 "Rua Costa Barros 2200",
                 1000);
@@ -108,6 +112,7 @@ class PropostaControllerTest {
     @Test
     public void naoDeveriaCadastrarPropostaSemEndereco() throws Exception {
         PropostaRequest request = new PropostaRequest("68351808032",
+                "Eduardo Diniz",
                 "eduardo.diniz@zup.com.br",
                 "",
                 1000);
@@ -121,6 +126,7 @@ class PropostaControllerTest {
     @Test
     public void naoDeveriaCadastrarPropostaComSalarioNegativo() throws Exception {
         PropostaRequest request = new PropostaRequest("68351808032",
+                "Eduardo Diniz",
                 "eduardo.diniz@zup.com.br",
                 "Rua Costa Barros 2200",
                 -1000);
@@ -134,6 +140,7 @@ class PropostaControllerTest {
     @Test
     public void naoDeveriaCadastrarPropostaSemDocumento() throws Exception {
         PropostaRequest request = new PropostaRequest("",
+                "Eduardo Diniz",
                 "eduardo.diniz@zup.com.br",
                 "Rua Costa Barros 2200",
                 1000);
@@ -147,6 +154,21 @@ class PropostaControllerTest {
     @Test
     public void naoDeveriaCadastrarPropostaComDocumentoInvalido() throws Exception {
         PropostaRequest request = new PropostaRequest("68351808031",
+                "Eduardo Diniz",
+                "eduardo.diniz@zup.com.br",
+                "Rua Costa Barros 2200",
+                1000);
+
+        MockMvcRequest.performPost(mockMvc, "/propostas", 400, objectMapper, request);
+        List<Proposta> propostas = manager.createQuery("SELECT p FROM Proposta p", Proposta.class).getResultList();
+
+        Assertions.assertTrue(propostas.size() == 0);
+    }
+
+    @Test
+    public void naoDeveriaCadastrarPropostaSemNome() throws Exception {
+        PropostaRequest request = new PropostaRequest("68351808032",
+                "",
                 "eduardo.diniz@zup.com.br",
                 "Rua Costa Barros 2200",
                 1000);

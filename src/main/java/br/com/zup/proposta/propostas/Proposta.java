@@ -1,6 +1,8 @@
 package br.com.zup.proposta.propostas;
 
 import br.com.zup.proposta.compartilhado.CPForCNPJ;
+import br.com.zup.proposta.status.StatusEnum;
+import br.com.zup.proposta.status.StatusRequest;
 
 import javax.persistence.*;
 import javax.validation.constraints.NotBlank;
@@ -18,6 +20,9 @@ public class Proposta {
     private String documento;
 
     @NotBlank
+    private String nome;
+
+    @NotBlank
     private String email;
 
     @NotBlank
@@ -25,6 +30,9 @@ public class Proposta {
 
     @Positive
     private Double salario;
+
+    @Enumerated(EnumType.STRING)
+    private PropostaStatusEnum status;
 
     @Override
     public String toString() {
@@ -41,8 +49,9 @@ public class Proposta {
     public Proposta() {
     }
 
-    public Proposta(String documento, @NotBlank String email, @NotBlank String endereco, @Positive Double salario) {
+    public Proposta(String documento, @NotBlank String nome, @NotBlank String email, @NotBlank String endereco, @Positive Double salario) {
         this.documento = documento;
+        this.nome = nome;
         this.email = email;
         this.endereco = endereco;
         this.salario = salario;
@@ -66,5 +75,24 @@ public class Proposta {
 
     public Double getSalario() {
         return salario;
+    }
+
+    public String getNome() {
+        return nome;
+    }
+
+    public PropostaStatusEnum getStatus() {
+        return status;
+    }
+
+    public void setStatus(StatusEnum status) {
+        if(status == StatusEnum.COM_RESTRICAO)
+            this.status = PropostaStatusEnum.NAO_ELEGIVEL;
+        else if(status == StatusEnum.SEM_RESTRICAO)
+            this.status = PropostaStatusEnum.ELEGIVEL;
+    }
+
+    public StatusRequest toStatus() {
+        return new StatusRequest(nome, documento, id);
     }
 }

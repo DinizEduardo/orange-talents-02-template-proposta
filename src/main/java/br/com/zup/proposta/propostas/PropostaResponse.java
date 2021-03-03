@@ -4,6 +4,8 @@ public class PropostaResponse {
 
     private Long id;
 
+    private String nome;
+
     private String documento;
 
     private String email;
@@ -11,6 +13,8 @@ public class PropostaResponse {
     private String endereco;
 
     private double salario;
+
+    private PropostaStatusEnum status;
 
     @Deprecated
     public PropostaResponse() {
@@ -22,8 +26,17 @@ public class PropostaResponse {
         this.documento = proposta.getDocumento();
         this.endereco = proposta.getEndereco();
         this.salario = proposta.getSalario();
+        this.nome = proposta.getNome();
+        this.status = proposta.getStatus();
     }
 
+    public String getNome() {
+        return nome;
+    }
+
+    public PropostaStatusEnum getStatus() {
+        return status;
+    }
 
     public Long getId() {
         return id;
