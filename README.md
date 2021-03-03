@@ -69,3 +69,18 @@ Realizar a criação de uma proposta, durante o processo de criação da propost
 - Retornar **201** com Header Location preenchido com a URL da nova proposta em caso de sucesso.
 - Retornar **400** quando violado alguma das restrições.
 
+## 010-DOCUMENTO-UNICO
+
+### Objetivo
+
+Criamos o fluxo de geração de proposta, porém nosso cliente solicitou uma alteração que consiste em adicionar uma nova
+validação. Entretanto, não podemos permitir a existência de mais de uma proposta para o mesmo solicitante, ou seja, para o mesmo
+CNPJ ou CPF.
+
+### Resultado Esperado
+
+Não podemos permitir que tenha mais de uma proposta para o mesmo solicitante, ou seja, para o mesmo
+CNPJ ou CPF.
+
+- Devemos retornar o status code **422**, quando o solicitante já requisitou uma proposta.
+- Permitir a criação de uma proposta, caso o solicitante não tenha nenhuma outra.

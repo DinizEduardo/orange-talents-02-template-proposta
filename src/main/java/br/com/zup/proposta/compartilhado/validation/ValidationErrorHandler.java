@@ -1,4 +1,4 @@
-package br.com.zup.proposta.compartilhado;
+package br.com.zup.proposta.compartilhado.validation;
 
 import com.fasterxml.jackson.databind.exc.InvalidFormatException;
 import org.slf4j.Logger;
@@ -27,11 +27,9 @@ public class ValidationErrorHandler {
     private static final Logger log = LoggerFactory
             .getLogger(ValidationErrorHandler.class);
 
-
     @ResponseStatus(HttpStatus.BAD_REQUEST)
     @ExceptionHandler(MethodArgumentNotValidException.class)
     public ValidationErrorsOutputDto handleValidationError(MethodArgumentNotValidException exception) {
-
         List<ObjectError> globalErrors = exception.getBindingResult().getGlobalErrors();
         List<FieldError> fieldErrors = exception.getBindingResult().getFieldErrors();
 
@@ -42,7 +40,6 @@ public class ValidationErrorHandler {
     @ResponseStatus(HttpStatus.BAD_REQUEST)
     @ExceptionHandler(BindException.class)
     public ValidationErrorsOutputDto handleValidationError(BindException exception) {
-
         List<ObjectError> globalErrors = exception.getBindingResult().getGlobalErrors();
         List<FieldError> fieldErrors = exception.getBindingResult().getFieldErrors();
 
@@ -54,7 +51,6 @@ public class ValidationErrorHandler {
     @ExceptionHandler(HttpMessageNotReadableException.class)
     public ValidationErrorsOutputDto handleValidationError(HttpMessageNotReadableException exception) {
         log.error("Problema na de desserializar o objeto",exception);
-
         InvalidFormatException invalidFormat = (InvalidFormatException) exception.getCause();
 
         List<ObjectError> globalErrors = List.of(new ObjectError("", invalidFormat.getValue()+" não é um valor válido"));
@@ -71,7 +67,6 @@ public class ValidationErrorHandler {
         ValidationErrorsOutputDto validationErrors = new ValidationErrorsOutputDto();
 
         globalErrors.forEach(error -> validationErrors.addError(getErrorMessage(error)));
-
         fieldErrors.forEach(error -> {
             String errorMessage = getErrorMessage(error);
             validationErrors.addFieldError(error.getField(), errorMessage);

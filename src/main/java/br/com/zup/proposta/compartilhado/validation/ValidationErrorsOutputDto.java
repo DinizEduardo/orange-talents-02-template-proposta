@@ -1,4 +1,4 @@
-package br.com.zup.proposta.compartilhado;
+package br.com.zup.proposta.compartilhado.validation;
 
 import java.util.ArrayList;
 import java.util.List;

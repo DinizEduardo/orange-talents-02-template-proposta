@@ -1,4 +1,4 @@
-package br.com.zup.proposta.compartilhado;
+package br.com.zup.proposta.compartilhado.validation;
 
 public class FieldErrorOutputDto {
 
