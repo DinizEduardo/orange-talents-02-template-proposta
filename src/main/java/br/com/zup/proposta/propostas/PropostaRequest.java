@@ -15,6 +15,7 @@ public class PropostaRequest {
     private String documento;
 
     @Email(message = "E-mail invalido")
+    @NotBlank
     private String email;
 
     @NotBlank(message = "Endereço invalido")
