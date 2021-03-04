@@ -127,3 +127,33 @@ Criação de um endpoint HTTP (REST) que "informe" a saúde da nossa aplicação
 * API deve retornar o status code 200 quando tudo estiver ok
 * API deve retornar o status code 5xx quando algum componente de nossa infraestrutura estiver com mal-funcionamento
   (ex: banco de dados ou algum broker de mensagens)
+  
+## 030-ASSOCIAR-CARTAO-PROPOSTA
+
+### Objetivo
+
+Atrelar o número do cartão gerado a proposta. A proposta quando aprovada deve ser relacionada com um número do cartão.
+
+O sistema de proposta deve consultar em tempo periódico o sistema de cartões a fim de obter o número do cartão gerada
+para as propostas que foram geradas com sucesso, porém ainda não tem o número do cartão atrelado.
+
+### Necessidades
+
+Associar o número do cartão na proposta previamente criada com sucesso. O cartão deve ser persistido de acordo com as
+informações recebidas do sistema externo.
+
+### Restrições
+
+Identificador da proposta será utilizado como base para consulta do cartão no sistema legado "accounts".
+
+Para consultar se o cartão foi criado com sucesso, temos uma API específica para este fim, vamos analisá-la?
+
+`http://localhost:8888/swagger-ui/index.html?configUrl=/v3/api-docs/swagger-config#/`
+
+### Resultado Esperado
+
+- Quando o sistema de accounts(cartões) retornar sucesso (status code na faixa 200) o número de cartão deve ser atrelado a proposta.
+  - O **número do carto** é o **id** do cartão retornado na resposta do sistema de accounts(cartões)
+
+- Quando o sistema de accounts(cartões) retornar falha (status code na faixa 400 ou 500) não atualizar o estado da proposta, pois
+  ainda não foi processado, aguardar próxima iteração.

@@ -1,5 +1,7 @@
 package br.com.zup.proposta.propostas;
 
+import br.com.zup.proposta.cartoes.Cartao;
+import br.com.zup.proposta.cartoes.CartaoRequest;
 import br.com.zup.proposta.compartilhado.CPForCNPJ;
 import br.com.zup.proposta.status.StatusEnum;
 import br.com.zup.proposta.status.StatusRequest;
@@ -7,6 +9,7 @@ import br.com.zup.proposta.status.StatusRequest;
 import javax.persistence.*;
 import javax.validation.constraints.NotBlank;
 import javax.validation.constraints.Positive;
+import java.util.Objects;
 
 @Entity
 @Table(name = "propostas")
@@ -94,5 +97,24 @@ public class Proposta {
 
     public StatusRequest toStatus() {
         return new StatusRequest(nome, documento, id);
+    }
+
+    public CartaoRequest toCartaoRequest() {
+
+        return new CartaoRequest(documento, nome, id);
+
+    }
+
+    @Override
+    public boolean equals(Object o) {
+        if (this == o) return true;
+        if (!(o instanceof Proposta)) return false;
+        Proposta proposta = (Proposta) o;
+        return Objects.equals(getId(), proposta.getId()) && Objects.equals(getDocumento(), proposta.getDocumento()) && Objects.equals(getNome(), proposta.getNome()) && Objects.equals(getEmail(), proposta.getEmail()) && Objects.equals(getEndereco(), proposta.getEndereco()) && Objects.equals(getSalario(), proposta.getSalario()) && getStatus() == proposta.getStatus();
+    }
+
+    @Override
+    public int hashCode() {
+        return Objects.hash(getId(), getDocumento(), getNome(), getEmail(), getEndereco(), getSalario(), getStatus());
     }
 }
