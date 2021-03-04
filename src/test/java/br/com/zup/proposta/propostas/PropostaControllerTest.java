@@ -33,6 +33,44 @@ class PropostaControllerTest {
     private EntityManager manager;
 
     @Test
+    public void deveriaBuscarAPropostaPeloId() throws Exception {
+        PropostaRequest request = new PropostaRequest("68351808032",
+                "Eduardo Diniz",
+                "eduardo.diniz@zup.com.br",
+                "Rua Costa Barros 2200",
+                1000);
+
+        Proposta proposta = request.toModel();
+
+        manager.persist(proposta);
+
+        MockMvcRequest.performGet(mockMvc, "/propostas/" + proposta.getId(), 200, objectMapper, null);
+
+        List<Proposta> propostas = manager.createQuery("SELECT p FROM Proposta p", Proposta.class).getResultList();
+
+        Assertions.assertTrue(propostas.size() == 1);
+    }
+
+    @Test
+    public void naoDeveriaAcharPropostaComIdInvalido() throws Exception {
+        PropostaRequest request = new PropostaRequest("68351808032",
+                "Eduardo Diniz",
+                "eduardo.diniz@zup.com.br",
+                "Rua Costa Barros 2200",
+                1000);
+
+        Proposta proposta = request.toModel();
+
+        manager.persist(proposta);
+
+        MockMvcRequest.performGet(mockMvc, "/propostas/" + proposta.getId() + 1, 404, objectMapper, null);
+
+        List<Proposta> propostas = manager.createQuery("SELECT p FROM Proposta p", Proposta.class).getResultList();
+
+        Assertions.assertTrue(propostas.size() == 1);
+    }
+
+    @Test
     public void naoDeveriaCadastrarPropostaComDocumentoDuplicado() throws Exception {
         PropostaRequest request = new PropostaRequest("68351808032",
                 "Eduardo Diniz",

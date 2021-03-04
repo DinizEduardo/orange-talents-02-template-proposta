@@ -157,3 +157,22 @@ Para consultar se o cartão foi criado com sucesso, temos uma API específica pa
 
 - Quando o sistema de accounts(cartões) retornar falha (status code na faixa 400 ou 500) não atualizar o estado da proposta, pois
   ainda não foi processado, aguardar próxima iteração.
+  
+## 035-ACOMPANHAMENTO-PROPOSTA
+
+### Objetivo
+
+Criação de um endpoint que informe os dados da proposta.
+
+### Necessidades
+
+O solicitante pode consultar o estado da sua proposta.
+
+### Restrições
+
+Identificador da proposta é obrigatório na URL.
+
+### Resultado Esperado
+
+- Retornar status code **200** com a proposta no corpo da resposta.
+- Retornar status code **404** quando a proposta não existir.

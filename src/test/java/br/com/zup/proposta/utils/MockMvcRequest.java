@@ -18,4 +18,13 @@ public class MockMvcRequest {
                 .andExpect(MockMvcResultMatchers.status().is(status)).andReturn();
     }
 
+    public static MvcResult performGet(MockMvc mockMvc, String url, int status,
+                                  ObjectMapper objectMapper, Object request) throws Exception {
+        return mockMvc.perform(MockMvcRequestBuilders
+                .get(url)
+                .contentType(MediaType.APPLICATION_JSON)
+                .content(objectMapper.writeValueAsString(request)))
+                .andExpect(MockMvcResultMatchers.status().is(status)).andReturn();
+
+    }
 }

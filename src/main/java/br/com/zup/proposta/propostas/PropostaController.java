@@ -6,14 +6,14 @@ import br.com.zup.proposta.cartoes.CartaoRouter;
 import br.com.zup.proposta.status.StatusEnum;
 import br.com.zup.proposta.status.StatusResponse;
 import br.com.zup.proposta.status.StatusRouter;
+import javassist.NotFoundException;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.scheduling.annotation.Scheduled;
 import org.springframework.transaction.annotation.Transactional;
-import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.RequestBody;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.*;
+import org.springframework.web.server.ResponseStatusException;
 import org.springframework.web.util.UriComponentsBuilder;
 
 import javax.persistence.EntityManager;
@@ -22,6 +22,7 @@ import javax.validation.Valid;
 import java.net.URI;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Optional;
 
 @RestController
 @RequestMapping("/propostas")
@@ -79,6 +80,19 @@ public class PropostaController {
         }
 
         System.out.println("Saiu do Scheduled");
+
+    }
+
+    @GetMapping("/{id}")
+    public ResponseEntity<PropostaResponse> buscaPorId(@PathVariable Long id) throws NotFoundException {
+        Proposta proposta = Optional.ofNullable(manager.find(Proposta.class, id))
+                .orElseThrow(() ->
+                        new ResponseStatusException(
+                                HttpStatus.NOT_FOUND,
+                                "Id da proposta não encontrado"
+                        ));
+
+        return ResponseEntity.ok(new PropostaResponse(proposta));
 
     }
 
