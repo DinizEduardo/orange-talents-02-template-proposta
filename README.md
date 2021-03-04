@@ -176,3 +176,34 @@ Identificador da proposta é obrigatório na URL.
 
 - Retornar status code **200** com a proposta no corpo da resposta.
 - Retornar status code **404** quando a proposta não existir.
+
+## 040-RODAR-NOSSA-APLICAÇÃO-DOCKER
+
+### Objetivo
+
+Nossa aplicação está apta a ser executada em algum ambiente, mas qual a maneira mais adequada para rodar essa aplicação.
+Instalar um artefato em algum servidor de aplicação ou webserver. Pode não ser uma boa saída!
+
+Quando pensamos em um ambiente distribuído, nossas aplicações precisam ser **auto-contidas**, ou seja elas precisam
+expor seu serviços via HTTP, ou porta de um serviço web. Dessa maneira conseguimos escalar nossa aplicação usando o
+modelo "escalabilidade horizontal" ou adicionando novas instâncias desses serviços.
+
+### Explicação Necessária
+
+Em um ambiente de computação distribuída, aplicações "nascem" a todo instante e preparar um servidor web para depois
+realizar a instalação consome muito tempo, ainda temos um agravante da granularização correta dos serviços, fazendo com
+que uma aplicação seja executada com uma "carga" não tão balanceada.
+
+Outra característica de uma aplicação distribuída é reagir de uma maneira eficiente com aumento de carga e conseguir
+"ficar pronta" de maneira rápida, adicionando novas instâncias ao pool de instâncias que atendem as requisições.
+
+Esses itens referem-se a dois tópicos do manifesto 12 factor Apps, que garante que nossa aplicação seja portável e rode
+eficientemente em ambientes cloud. Item VI, VII e VIII do [manifesto](https://12factor.net/pt_br/)
+
+### Necessidades
+
+Precisamos rodar nossa aplicação fazendo exposição da porta para acesso ao serviço criado utilizando **Docker**
+
+### Resultado Esperado
+
+- Conseguir realizar chamada no serviço criado via porta HTTP utilizando **Docker**

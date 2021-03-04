@@ -34,6 +34,15 @@ services:
       POSTGRES_DB: keycloak
       POSTGRES_HOST: postgres
 
+  java:
+    build:
+      dockerfile: novo.dockerfile
+      context: .
+    image: java:11
+    container_name: meuapp
+    ports:
+      - 8080:8080
+
   keycloak:
     image: jboss/keycloak
     ports:
