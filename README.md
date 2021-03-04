@@ -109,8 +109,21 @@ Temos uma API específica para consultar os dados financeiros, vamos analisá-la
 
 - O identificador da proposta deve ser passado no body
 
-## Resultado Esperado
+### Resultado Esperado
 
 No processo de Criação da Proposta deve considerar o status recebido da avaliação financeira do solicitante.
 -  Caso a devolutiva da analise for o estado **COM_RESTRICAO** o estado da proposta deve ser **NAO_ELEGIVEL**
 -  Caso a devolutiva da analise for o estado **SEM_RESTRICAO** o estado da proposta deve ser **ELEGIVEL**
+
+## 020-MELHORANDO-VISIBILIDADE-HEALTHCHECK
+
+### Objetivo
+
+Nossa aplicação deve "mostrar" a saúde dela para algum sistema automático de monitoramento ou equipe de operação!
+
+### Resultado Esperado
+
+Criação de um endpoint HTTP (REST) que "informe" a saúde da nossa aplicação.
+* API deve retornar o status code 200 quando tudo estiver ok
+* API deve retornar o status code 5xx quando algum componente de nossa infraestrutura estiver com mal-funcionamento
+  (ex: banco de dados ou algum broker de mensagens)
