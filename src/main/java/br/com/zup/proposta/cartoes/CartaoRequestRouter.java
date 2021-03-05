@@ -1,6 +1,6 @@
 package br.com.zup.proposta.cartoes;
 
-public class CartaoRequest {
+public class CartaoRequestRouter {
 
     private String documento;
 
@@ -9,10 +9,10 @@ public class CartaoRequest {
     private Long idProposta;
 
     @Deprecated
-    public CartaoRequest() {
+    public CartaoRequestRouter() {
     }
 
-    public CartaoRequest(String documento, String nome, Long idProposta) {
+    public CartaoRequestRouter(String documento, String nome, Long idProposta) {
         this.documento = documento;
         this.nome = nome;
         this.idProposta = idProposta;

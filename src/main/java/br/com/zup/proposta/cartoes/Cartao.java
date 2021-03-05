@@ -55,7 +55,16 @@ public class Cartao {
     public Cartao() {
     }
 
-    public Cartao(String numeroCartao, LocalDateTime emitidoEm, Proposta proposta, Double limite, List<Bloqueio> bloqueios, List<Aviso> avisos, List<Carteira> carteiras, List<Parcela> parcelas, Renegociacao renegociacao, Vencimento vencimento) {
+    public Cartao(String numeroCartao,
+                  LocalDateTime emitidoEm,
+                  Proposta proposta,
+                  Double limite,
+                  List<Bloqueio> bloqueios,
+                  List<Aviso> avisos,
+                  List<Carteira> carteiras,
+                  List<Parcela> parcelas,
+                  Renegociacao renegociacao,
+                  Vencimento vencimento) {
         this.numeroCartao = numeroCartao;
         this.emitidoEm = emitidoEm;
         this.proposta = proposta;

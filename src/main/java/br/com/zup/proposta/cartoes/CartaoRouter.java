@@ -7,6 +7,6 @@ import org.springframework.web.bind.annotation.PostMapping;
 public interface CartaoRouter {
 
     @PostMapping
-    CartaoResponse criaCartao(CartaoRequest form);
+    CartaoResponseRouter criaCartao(CartaoRequestRouter form);
 
 }

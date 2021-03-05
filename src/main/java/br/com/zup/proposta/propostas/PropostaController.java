@@ -1,9 +1,8 @@
 package br.com.zup.proposta.propostas;
 
 import br.com.zup.proposta.cartoes.Cartao;
-import br.com.zup.proposta.cartoes.CartaoResponse;
+import br.com.zup.proposta.cartoes.CartaoResponseRouter;
 import br.com.zup.proposta.cartoes.CartaoRouter;
-import br.com.zup.proposta.status.StatusEnum;
 import br.com.zup.proposta.status.StatusResponse;
 import br.com.zup.proposta.status.StatusRouter;
 import javassist.NotFoundException;
@@ -68,7 +67,7 @@ public class PropostaController {
         while(propostas.size() > 0) {
             Proposta proposta = propostas.get(0);
             System.out.println("Cadastrando cartão da proposta: " + proposta.getId());
-            CartaoResponse cartaoResponse = cartaoRouter.criaCartao(proposta.toCartaoRequest());
+            CartaoResponseRouter cartaoResponse = cartaoRouter.criaCartao(proposta.toCartaoRequest());
 
             Cartao cartao = cartaoResponse.toModel(proposta);
 

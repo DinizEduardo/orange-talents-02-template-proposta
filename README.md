@@ -207,3 +207,29 @@ Precisamos rodar nossa aplicação fazendo exposição da porta para acesso ao s
 ### Resultado Esperado
 
 - Conseguir realizar chamada no serviço criado via porta HTTP utilizando **Docker**
+
+## 045-CRIAR-BIOMETRIA
+
+### Objetivo
+
+O portador do cartão deseja realizar o cadastro da biometria para conseguir acesso ao aplicativo usando a mesma.
+O cartão pode ter uma ou mais biometrias associadas.
+
+### Necessidades
+
+Realizar o cadastro da biometria. Devemos armazenar a data em que a biometria foi associada para futuras auditorias.
+
+- Informar o identificador do cartão.
+- Informar um fingerprint da biometria.
+
+### Restrições
+
+- Identificador do cartão é obrigatório na URL (path parameter).
+- Biometria deve ser enviada em Base64.
+
+### Resultado Esperado
+
+- A biometria deve estar armazenada no sistema, com um identificador gerado pelo sistema.
+- Retornar **201** com Header Location preenchido com a URL da nova biometria em caso de sucesso.
+- Retornar **400** quando a biometria não enviada ou está inválida.
+- Retornar **404** quando o cartão não for encontrado.

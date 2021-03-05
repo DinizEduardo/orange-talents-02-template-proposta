@@ -1,7 +1,6 @@
 package br.com.zup.proposta.propostas;
 
-import br.com.zup.proposta.cartoes.Cartao;
-import br.com.zup.proposta.cartoes.CartaoRequest;
+import br.com.zup.proposta.cartoes.CartaoRequestRouter;
 import br.com.zup.proposta.compartilhado.CPForCNPJ;
 import br.com.zup.proposta.status.StatusEnum;
 import br.com.zup.proposta.status.StatusRequest;
@@ -99,9 +98,9 @@ public class Proposta {
         return new StatusRequest(nome, documento, id);
     }
 
-    public CartaoRequest toCartaoRequest() {
+    public CartaoRequestRouter toCartaoRequest() {
 
-        return new CartaoRequest(documento, nome, id);
+        return new CartaoRequestRouter(documento, nome, id);
 
     }
 

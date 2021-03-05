@@ -8,14 +8,12 @@ import br.com.zup.proposta.cartoes.renegociacaos.Renegociacao;
 import br.com.zup.proposta.cartoes.vencimentos.Vencimento;
 import br.com.zup.proposta.cartoes.vencimentos.VencimentoResponse;
 import br.com.zup.proposta.propostas.Proposta;
-import com.fasterxml.jackson.annotation.JsonFormat;
-import org.springframework.format.annotation.DateTimeFormat;
 
 import javax.persistence.*;
 import java.time.LocalDateTime;
 import java.util.List;
 
-public class CartaoResponse {
+public class CartaoResponseRouter {
     private String id; // numero cartão
 
     private String idProposta;
