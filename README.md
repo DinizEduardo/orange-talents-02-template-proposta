@@ -268,3 +268,39 @@ Precisamos configurar nosso sistema para se comunicar com nosso servidor de aute
 
 Configuração do Spring Security na nossa aplicação com o módulo OAuth2 apontando para
 o nosso servidor de Autorização, nesse caso o Keycloak.
+
+## 055-BLOQUEIO-CARTAO
+
+### Objetivo
+
+Realizar o bloqueio do cartão.
+
+### Necessidades
+
+O usuário do cartão pode realizar o bloqueio do cartão por alguma suspeita de fraude.
+
+- Informar o identificador do cartão a ser bloqueado.
+
+- Armazenar o instante do bloqueio.
+
+- Armazenar o IP do cliente que fez a requisição.
+
+- Armazenar o User Agent do cliente que fez a requisição.
+
+### Restrições
+
+- Identificador do cartão é obrigatório e deve ser informado na URL (path parameter).
+
+- Caso o cartão estiver já bloqueado devemos retornar um erro de negócio.
+
+### Resultado Esperado
+
+- Bloqueio deve estar armazenada no sistema, com um identificador gerado pelo sistema.
+
+- Retornar **200** quando o bloqueio em caso de sucesso.
+
+- Retornar **400** quando violado alguma das restrições.
+
+- Retornar **422** quando violado alguma regra de negócio.
+
+- Retornar **404** quando o cartão não for encontrado.

@@ -1,11 +1,8 @@
-package br.com.zup.proposta.cartoes.bloqueios;
+package br.com.zup.proposta.bloqueios;
 
 import br.com.zup.proposta.cartoes.Cartao;
-import com.fasterxml.jackson.annotation.JsonFormat;
-import org.springframework.format.annotation.DateTimeFormat;
 
 import javax.persistence.*;
-import javax.validation.constraints.NotBlank;
 import java.time.LocalDateTime;
 
 @Entity
@@ -27,6 +24,10 @@ public class Bloqueio {
     @ManyToOne
     private Cartao cartao;
 
+    private String ipCliente;
+
+    private String userAgent;
+
     public Long getId() {
         return id;
     }
@@ -47,6 +48,18 @@ public class Bloqueio {
         return cartao;
     }
 
+    public String getIdExterno() {
+        return idExterno;
+    }
+
+    public String getIpCliente() {
+        return ipCliente;
+    }
+
+    public String getUserAgent() {
+        return userAgent;
+    }
+
     public Bloqueio(String idExterno, LocalDateTime bloqueadoEm, String sistemaResponsavel, boolean ativo, Cartao cartao) {
         this.idExterno = idExterno;
         this.bloqueadoEm = bloqueadoEm;
@@ -54,8 +67,29 @@ public class Bloqueio {
         this.ativo = ativo;
         this.cartao = cartao;
     }
-
     @Deprecated
     public Bloqueio() {
+    }
+
+    public void setInformacoesDeRequest(String remoteAddr, String agent, Cartao cartao) {
+
+        this.ipCliente = remoteAddr;
+        this.userAgent = agent;
+        this.cartao = cartao;
+
+    }
+
+    @Override
+    public String toString() {
+        return "Bloqueio{" +
+                "id=" + id +
+                ", idExterno='" + idExterno + '\'' +
+                ", bloqueadoEm=" + bloqueadoEm +
+                ", sistemaResponsavel='" + sistemaResponsavel + '\'' +
+                ", ativo=" + ativo +
+                ", cartao=" + cartao +
+                ", ipCliente='" + ipCliente + '\'' +
+                ", userAgent='" + userAgent + '\'' +
+                '}';
     }
 }

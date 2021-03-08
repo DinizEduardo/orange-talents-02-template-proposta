@@ -1,17 +1,17 @@
 package br.com.zup.proposta.cartoes;
 
+import br.com.zup.proposta.bloqueios.BloqueioResponse;
 import br.com.zup.proposta.cartoes.avisos.Aviso;
-import br.com.zup.proposta.cartoes.bloqueios.Bloqueio;
+import br.com.zup.proposta.bloqueios.Bloqueio;
 import br.com.zup.proposta.cartoes.carteiras.Carteira;
 import br.com.zup.proposta.cartoes.parcelas.Parcela;
 import br.com.zup.proposta.cartoes.renegociacaos.Renegociacao;
-import br.com.zup.proposta.cartoes.vencimentos.Vencimento;
 import br.com.zup.proposta.cartoes.vencimentos.VencimentoResponse;
 import br.com.zup.proposta.propostas.Proposta;
 
-import javax.persistence.*;
 import java.time.LocalDateTime;
 import java.util.List;
+import java.util.stream.Collectors;
 
 public class CartaoResponseRouter {
     private String id; // numero cartão
@@ -24,7 +24,7 @@ public class CartaoResponseRouter {
 
     private Double limite;
 
-    private List<Bloqueio> bloqueios;
+    private List<BloqueioResponse> bloqueios;
 
     private List<Aviso> avisos;
 
@@ -73,7 +73,7 @@ public class CartaoResponseRouter {
         return limite;
     }
 
-    public List<Bloqueio> getBloqueios() {
+    public List<BloqueioResponse> getBloqueios() {
         return bloqueios;
     }
 
@@ -99,7 +99,14 @@ public class CartaoResponseRouter {
 
     public Cartao toModel(Proposta proposta) {
         return new Cartao(id, emitidoEm, proposta, limite,
-                bloqueios, avisos, carteiras, parcelas,
+                bloqueios.stream().map(BloqueioResponse::toModel).collect(Collectors.toList()),
+                avisos, carteiras, parcelas,
                 renegociacao, vencimento.toModel());
+    }
+
+    public BloqueioResponse getUltimoBloqueio() {
+
+        return bloqueios.get(bloqueios.size() - 1);
+
     }
 }

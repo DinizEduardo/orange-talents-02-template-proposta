@@ -1,4 +1,4 @@
-package br.com.zup.proposta.cartoes.bloqueios;
+package br.com.zup.proposta.bloqueios;
 
 import br.com.zup.proposta.cartoes.Cartao;
 
@@ -20,4 +20,23 @@ public class BloqueioResponse {
         return new Bloqueio(id, LocalDateTime.parse(bloqueadoEm), sistemaResponsavel, ativo, cartao);
     }
 
+    public String getId() {
+        return id;
+    }
+
+    public String getBloqueadoEm() {
+        return bloqueadoEm;
+    }
+
+    public String getSistemaResponsavel() {
+        return sistemaResponsavel;
+    }
+
+    public boolean isAtivo() {
+        return ativo;
+    }
+
+    public Cartao getCartao() {
+        return cartao;
+    }
 }

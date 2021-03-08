@@ -1,7 +1,7 @@
 package br.com.zup.proposta.cartoes;
 
 import br.com.zup.proposta.cartoes.avisos.Aviso;
-import br.com.zup.proposta.cartoes.bloqueios.Bloqueio;
+import br.com.zup.proposta.bloqueios.Bloqueio;
 import br.com.zup.proposta.cartoes.carteiras.Carteira;
 import br.com.zup.proposta.cartoes.parcelas.Parcela;
 import br.com.zup.proposta.cartoes.renegociacaos.Renegociacao;
@@ -77,6 +77,14 @@ public class Cartao {
         this.vencimento = vencimento;
     }
 
+    public static Cartao findByNumeroCartao(String numeroCartao, EntityManager manager) {
+        Query query = manager.createQuery("SELECT c FROM Cartao c WHERE numeroCartao = :numero");
+
+        query.setParameter("numero", numeroCartao);
+
+        return (Cartao) query.getSingleResult();
+    }
+
     public Long getId() {
         return id;
     }
@@ -136,5 +144,9 @@ public class Cartao {
                 ", renegociacao=" + renegociacao +
                 ", vencimento=" + vencimento.toString() +
                 '}';
+    }
+
+    public void addBloqueio(Bloqueio bloqueio) {
+        this.bloqueios.add(bloqueio);
     }
 }
