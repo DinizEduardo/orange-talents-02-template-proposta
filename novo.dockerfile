@@ -11,4 +11,6 @@ ENV JPA_DDL_AUTO=update
 ENV DB_DRIVER=org.postgresql.Driver
 ENV STATUS_API=http://analise:9999
 ENV CARTAO_API=http://contas:8888
+ENV KEYCLOAK_ISSUER_URI=http://keycloak:18080/auth/realms/nosso-cartao
+ENV KEYCLOAK_JWKS_URI=http://keycloak:18080/auth/realms/nosso-cartao/protocol/openid-connect/certs
 ENTRYPOINT java -jar /app.jar
