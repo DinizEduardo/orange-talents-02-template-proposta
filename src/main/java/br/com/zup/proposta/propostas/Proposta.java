@@ -6,7 +6,9 @@ import br.com.zup.proposta.status.StatusEnum;
 import br.com.zup.proposta.status.StatusRequest;
 
 import javax.persistence.*;
+import javax.validation.constraints.Email;
 import javax.validation.constraints.NotBlank;
+import javax.validation.constraints.NotNull;
 import javax.validation.constraints.Positive;
 import java.util.Objects;
 

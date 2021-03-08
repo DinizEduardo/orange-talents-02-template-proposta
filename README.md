@@ -233,3 +233,38 @@ Realizar o cadastro da biometria. Devemos armazenar a data em que a biometria fo
 - Retornar **201** com Header Location preenchido com a URL da nova biometria em caso de sucesso.
 - Retornar **400** quando a biometria não enviada ou está inválida.
 - Retornar **404** quando o cartão não for encontrado.
+
+## 050-LOGIN-VIA-SENHA
+
+### Contexto
+
+Controlar autenticação e autorização é um tarefa complicada e que na maioria das vezes envolve um conhecimento profundo em
+segurança, como por exemplo se preocupar com vulnerabilidades de segurança, trazer essa responsabilidade para nossa solução
+pode trazer muitas complicações.
+
+Vamos deixar essas características para uma outra aplicação um IAM (Identity and Access Management).
+
+### Objetivo
+
+Realizar a integração do nosso sistema com o Keycloak, a fim de proteger nossas APIs.
+
+### Necessidades
+
+Precisamos configurar nosso sistema para se comunicar com nosso servidor de autenticação.
+
+### Restrições
+
+* Não vamos realizar a manipulação de usuários, então não podemos criar nenhum usuário no sistema.
+
+* Antes de começarmos a configuração na nossa aplicação vamos precisar realizar algumas tarefas
+
+  * Logar no Keycloak nosso Servidor de IAM, [aqui tem um passo-a-passo de como fazer isso](../informacao_suporte/keycloak-login.md)
+
+  * Nosso próximo passo será criar um "espaço" para colocar nossas permissões, no keycloak esse "espaço" chama-se Realm, [aqui você encontra o que você precisa para criar um realm](../informacao_suporte/keycloak-realm.md)
+
+    * Criar usuários para realizar logins na plataforma, [aqui você pode encontrar como fazer isso](../informacao_suporte/keycloak-user.md)
+
+### Resultado Esperado
+
+Configuração do Spring Security na nossa aplicação com o módulo OAuth2 apontando para
+o nosso servidor de Autorização, nesse caso o Keycloak.

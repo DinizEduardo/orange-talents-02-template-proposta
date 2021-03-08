@@ -10,6 +10,16 @@ public class StatusResponse {
 
     private StatusEnum resultadoSolicitacao;
 
+    @Override
+    public String toString() {
+        return "StatusResponse{" +
+                "idProposta=" + idProposta +
+                ", documento='" + documento + '\'' +
+                ", nome='" + nome + '\'' +
+                ", resultadoSolicitacao=" + resultadoSolicitacao +
+                '}';
+    }
+
     public Long getIdProposta() {
         return idProposta;
     }

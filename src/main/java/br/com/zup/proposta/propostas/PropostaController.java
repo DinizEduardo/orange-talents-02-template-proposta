@@ -5,6 +5,7 @@ import br.com.zup.proposta.cartoes.CartaoResponseRouter;
 import br.com.zup.proposta.cartoes.CartaoRouter;
 import br.com.zup.proposta.status.StatusResponse;
 import br.com.zup.proposta.status.StatusRouter;
+import feign.FeignException;
 import javassist.NotFoundException;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
@@ -49,6 +50,7 @@ public class PropostaController {
         URI uri = uriBuilder.path("/propostas/{id}").buildAndExpand(proposta.getId()).toUri();
 
         StatusResponse response = statusRouter.status(proposta.toStatus());
+
         proposta.setStatus(response.getResultadoSolicitacao());
 
         if(proposta.getStatus() == PropostaStatusEnum.ELEGIVEL)
