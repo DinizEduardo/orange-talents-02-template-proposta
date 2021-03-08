@@ -29,7 +29,7 @@ public class PropostaRequest {
     private double salario;
 
     public PropostaRequest(String documento, @NotBlank String nome, @Email(message = "E-mail invalido") @NotBlank String email, @NotBlank(message = "Endereço invalido") String endereco, @NotNull(message = "Salario invalido") @Positive(message = "O salario precisa ser um valor positivo") double salario) {
-        this.documento = documento;
+        this.documento = documento.replaceAll("[^\\d]", "");
         this.nome = nome;
         this.email = email;
         this.endereco = endereco;

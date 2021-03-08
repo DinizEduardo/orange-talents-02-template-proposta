@@ -8,6 +8,8 @@ import br.com.zup.proposta.status.StatusResponse;
 import br.com.zup.proposta.status.StatusRouter;
 import feign.FeignException;
 import javassist.NotFoundException;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
@@ -27,7 +29,7 @@ import java.util.Optional;
 
 @RestController
 @RequestMapping("/propostas")
-public class PropostaController extends RuntimeException{
+public class PropostaController {
     @PersistenceContext
     private EntityManager manager;
 
@@ -39,26 +41,37 @@ public class PropostaController extends RuntimeException{
 
     private List<Proposta> propostas = new ArrayList<Proposta>();
 
+    private final Logger logger = LoggerFactory.getLogger(PropostaController.class);
+
     @PostMapping
     @Transactional
     public ResponseEntity<PropostaResponse> cria(@RequestBody @Valid PropostaRequest form,
                                                  UriComponentsBuilder uriBuilder) {
 
+        logger.info(String.format("Recebendo request com documento: %s", form.getDocumento()));
+
         Proposta proposta = form.toModel();
 
         manager.persist(proposta);
 
+        logger.info(String.format("Request persistido com id: %d", proposta.getId()));
+
         URI uri = uriBuilder.path("/propostas/{id}").buildAndExpand(proposta.getId()).toUri();
 
         try {
+
+            logger.info("Enviando requisição para analise financeira");
+
             StatusResponse response = statusRouter.status(proposta.toStatus());
 
             proposta.setStatus(response.getResultadoSolicitacao());
 
+            logger.info(String.format("Proposta com id: %d é ELEGIVEL para cartão", proposta.getId()));
+
             propostas.add(proposta);
 
         } catch (FeignException e) {
-
+            logger.info(String.format("Proposta com id: %d não é ELEGIVEL para cartão", proposta.getId()));
             proposta.setStatus(StatusEnum.COM_RESTRICAO);
         }
 
@@ -69,23 +82,26 @@ public class PropostaController extends RuntimeException{
     @Scheduled(fixedDelay = 5000)
     public void criaCartao() {
 
-        System.out.println("Entrou no Scheduled");
-
+        logger.info(String.format("Solicitando cadastro de cartões, cadastros necessarios: %d", propostas.size()));
         while(propostas.size() > 0) {
             Proposta proposta = propostas.get(0);
-            System.out.println("Cadastrando cartão da proposta: " + proposta.getId());
+
+            logger.info(String.format("Solicitnado cartão %d", proposta.getId()));
+
             CartaoResponseRouter cartaoResponse = cartaoRouter.criaCartao(proposta.toCartaoRequest());
 
             Cartao cartao = cartaoResponse.toModel(proposta);
+
+            logger.info(String.format("Proposta id: %d cartão da proposta: %s", proposta.getId(), cartao.getNumeroCartao()));
 
             manager.merge(cartao);
 
             propostas.remove(0);
 
-            System.out.println("Quantiade de propostas -> " + propostas.size());
+            logger.info(String.format("Propostas restantes: %d", propostas.size()));
         }
 
-        System.out.println("Saiu do Scheduled");
+        logger.info("Cadastrou todos os cartões necessarios");
 
     }
 
