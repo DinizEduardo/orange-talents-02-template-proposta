@@ -3,6 +3,7 @@ package br.com.zup.proposta.propostas;
 import br.com.zup.proposta.cartoes.Cartao;
 import br.com.zup.proposta.cartoes.CartaoResponseRouter;
 import br.com.zup.proposta.cartoes.CartaoRouter;
+import br.com.zup.proposta.status.StatusEnum;
 import br.com.zup.proposta.status.StatusResponse;
 import br.com.zup.proposta.status.StatusRouter;
 import feign.FeignException;
@@ -26,7 +27,7 @@ import java.util.Optional;
 
 @RestController
 @RequestMapping("/propostas")
-public class PropostaController {
+public class PropostaController extends RuntimeException{
     @PersistenceContext
     private EntityManager manager;
 
@@ -49,13 +50,17 @@ public class PropostaController {
 
         URI uri = uriBuilder.path("/propostas/{id}").buildAndExpand(proposta.getId()).toUri();
 
-        StatusResponse response = statusRouter.status(proposta.toStatus());
+        try {
+            StatusResponse response = statusRouter.status(proposta.toStatus());
 
-        proposta.setStatus(response.getResultadoSolicitacao());
+            proposta.setStatus(response.getResultadoSolicitacao());
 
-        if(proposta.getStatus() == PropostaStatusEnum.ELEGIVEL)
             propostas.add(proposta);
 
+        } catch (FeignException e) {
+
+            proposta.setStatus(StatusEnum.COM_RESTRICAO);
+        }
 
         return ResponseEntity.created(uri).body(new PropostaResponse(proposta));
     }

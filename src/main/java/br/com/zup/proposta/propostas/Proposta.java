@@ -97,7 +97,7 @@ public class Proposta {
     }
 
     public StatusRequest toStatus() {
-        return new StatusRequest(nome, documento, id);
+        return new StatusRequest(documento, nome, id);
     }
 
     public CartaoRequestRouter toCartaoRequest() {
