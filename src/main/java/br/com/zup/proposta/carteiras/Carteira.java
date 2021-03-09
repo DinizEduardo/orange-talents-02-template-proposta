@@ -21,7 +21,8 @@ public class Carteira {
 
     private LocalDateTime associadaEm;
 
-    private String emissor;
+    @Enumerated(EnumType.STRING)
+    private TipoCarteiraEnum emissor;
 
     @ManyToOne
     private Cartao cartao;
@@ -38,7 +39,7 @@ public class Carteira {
         return associadaEm;
     }
 
-    public String getEmissor() {
+    public TipoCarteiraEnum getEmissor() {
         return emissor;
     }
 
@@ -46,7 +47,7 @@ public class Carteira {
     public Carteira() {
     }
 
-    public Carteira(@NotBlank String idExterno, String email, LocalDateTime associadaEm, String emissor, Cartao cartao) {
+    public Carteira(@NotBlank String idExterno, String email, LocalDateTime associadaEm, TipoCarteiraEnum emissor, Cartao cartao) {
         this.idExterno = idExterno;
         this.email = email;
         this.associadaEm = associadaEm;

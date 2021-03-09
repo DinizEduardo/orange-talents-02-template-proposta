@@ -12,7 +12,7 @@ public class CarteiraResponse {
 
     private String associadaEm;
 
-    private String emissor;
+    private TipoCarteiraEnum emissor;
 
     private Cartao cartao;
 
@@ -32,7 +32,7 @@ public class CarteiraResponse {
         return associadaEm;
     }
 
-    public String getEmissor() {
+    public TipoCarteiraEnum getEmissor() {
         return emissor;
     }
 
