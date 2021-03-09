@@ -1,8 +1,10 @@
 package br.com.zup.proposta.cartoes;
 
+import br.com.zup.proposta.avisos.AvisoRequest;
 import br.com.zup.proposta.bloqueios.BloqueioResponse;
 import br.com.zup.proposta.avisos.Aviso;
-import br.com.zup.proposta.cartoes.carteiras.Carteira;
+import br.com.zup.proposta.carteiras.Carteira;
+import br.com.zup.proposta.carteiras.CarteiraResponse;
 import br.com.zup.proposta.cartoes.parcelas.Parcela;
 import br.com.zup.proposta.cartoes.renegociacaos.Renegociacao;
 import br.com.zup.proposta.cartoes.vencimentos.VencimentoResponse;
@@ -27,7 +29,7 @@ public class CartaoResponseRouter {
 
     private List<Aviso> avisos;
 
-    private List<Carteira> carteiras;
+    private List<CarteiraResponse> carteiras;
 
     private List<Parcela> parcelas;
 
@@ -80,7 +82,7 @@ public class CartaoResponseRouter {
         return avisos;
     }
 
-    public List<Carteira> getCarteiras() {
+    public List<CarteiraResponse> getCarteiras() {
         return carteiras;
     }
 
@@ -99,7 +101,9 @@ public class CartaoResponseRouter {
     public Cartao toModel(Proposta proposta) {
         return new Cartao(id, emitidoEm, proposta, limite,
                 bloqueios.stream().map(BloqueioResponse::toModel).collect(Collectors.toList()),
-                avisos, carteiras, parcelas,
+                avisos,
+                carteiras.stream().map(CarteiraResponse::toModel).collect(Collectors.toList()),
+                parcelas,
                 renegociacao, vencimento.toModel());
     }
 
@@ -107,5 +111,9 @@ public class CartaoResponseRouter {
 
         return bloqueios.get(bloqueios.size() - 1);
 
+    }
+
+    public CarteiraResponse getUltimaCarteira() {
+        return carteiras.get(carteiras.size() - 1);
     }
 }

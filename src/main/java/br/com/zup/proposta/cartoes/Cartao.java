@@ -2,7 +2,7 @@ package br.com.zup.proposta.cartoes;
 
 import br.com.zup.proposta.avisos.Aviso;
 import br.com.zup.proposta.bloqueios.Bloqueio;
-import br.com.zup.proposta.cartoes.carteiras.Carteira;
+import br.com.zup.proposta.carteiras.Carteira;
 import br.com.zup.proposta.cartoes.parcelas.Parcela;
 import br.com.zup.proposta.cartoes.renegociacaos.Renegociacao;
 import br.com.zup.proposta.cartoes.vencimentos.Vencimento;
@@ -148,5 +148,9 @@ public class Cartao {
 
     public void addBloqueio(Bloqueio bloqueio) {
         this.bloqueios.add(bloqueio);
+    }
+
+    public void addCarteira(Carteira carteira) {
+        this.carteiras.add(carteira);
     }
 }

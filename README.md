@@ -448,3 +448,36 @@ Temos uma API específica para notificar o sistema bancário sobre o aviso de vi
 - Quando o sistema bancário retornar sucesso (status code na faixa 200) o aviso deve ser armazenado no sistema.
 - Quando o sistema bancário retornar erro (status code na faixa 400 ou 500) o aviso de viagem não deve ser armazenado no sistema.
 
+## 085-ASSOCIAÇÃO-PAYPAL
+
+### Objetivo
+
+Realizar a inclusão do nosso cartão na carteira digital Paypal.
+
+### Necessidades
+
+O portador do cartão deseja associar seu cartão a carteira digital do Paypal, para isso será necessário consumir a API
+do sistema bancário.
+
+Temos uma API específica para cadastrar a carteira digital, vamos analisá-la?
+
+`http://localhost:8888/swagger-ui/index.html?configUrl=/v3/api-docs/swagger-config#/`
+
+### Restrições
+
+Devemos criar uma API com as seguintes restrições:
+
+- Identificador do cartão é obrigatório e deve ser informado na URL (path parameter).
+- O email é obrigatório, ou seja, não pode ser nulo, vazio ou inválido.
+- O mesmo cartão não pode ser associado mais de uma vez a mesma carteira digital, no caso aqui o Paypal.
+
+### Resultado Esperado
+
+- A carteira deve estar armazenada no sistema, com um identificador gerado pelo sistema.
+- Retornar **201** com Header Location preenchido com a URL da carteira em caso de sucesso.
+  - Quando o sistema bancário retornar sucesso (status code na faixa 200) a carteira deve ser armazenada no sistema.
+  - Quando o sistema bancário retornar erro (status code na faixa 400 ou 500) a carteira não deve ser armazenada no sistema.
+- Retornar **400** quando violado alguma das restrições.
+- Retornar **404** quando o cartão não for encontrado.
+- Retornar **422** no caso de tentativa de associação de um cartão que já era associado com a carteira
+

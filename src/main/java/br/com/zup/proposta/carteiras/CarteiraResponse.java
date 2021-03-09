@@ -1,4 +1,4 @@
-package br.com.zup.proposta.cartoes.carteiras;
+package br.com.zup.proposta.carteiras;
 
 import br.com.zup.proposta.cartoes.Cartao;
 
@@ -38,5 +38,9 @@ public class CarteiraResponse {
 
     public Cartao getCartao() {
         return cartao;
+    }
+
+    public Carteira toModel(Cartao cartao) {
+        return new Carteira(id, email, LocalDateTime.parse(associadaEm), emissor, cartao);
     }
 }

@@ -1,12 +1,9 @@
-package br.com.zup.proposta.cartoes.carteiras;
+package br.com.zup.proposta.carteiras;
 
 import br.com.zup.proposta.cartoes.Cartao;
-import com.fasterxml.jackson.annotation.JsonFormat;
-import org.springframework.format.annotation.DateTimeFormat;
 
 import javax.persistence.*;
 import javax.validation.constraints.NotBlank;
-import java.time.LocalDate;
 import java.time.LocalDateTime;
 
 @Entity
@@ -55,5 +52,13 @@ public class Carteira {
         this.associadaEm = associadaEm;
         this.emissor = emissor;
         this.cartao = cartao;
+    }
+
+    public String getIdExterno() {
+        return idExterno;
+    }
+
+    public Cartao getCartao() {
+        return cartao;
     }
 }
