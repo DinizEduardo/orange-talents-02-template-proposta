@@ -1,5 +1,6 @@
 package br.com.zup.proposta.propostas;
 
+import br.com.zup.proposta.cartoes.Cartao;
 import br.com.zup.proposta.cartoes.CartaoRequestRouter;
 import br.com.zup.proposta.compartilhado.CPForCNPJ;
 import br.com.zup.proposta.status.StatusEnum;
@@ -38,6 +39,9 @@ public class Proposta {
     @Enumerated(EnumType.STRING)
     private PropostaStatusEnum status;
 
+    @OneToOne(cascade = CascadeType.MERGE)
+    private Cartao cartao;
+
     @Override
     public String toString() {
         return "Proposta{" +
@@ -71,6 +75,10 @@ public class Proposta {
 
     public String getEmail() {
         return email;
+    }
+
+    public Cartao getCartao() {
+        return cartao;
     }
 
     public String getEndereco() {
@@ -117,5 +125,11 @@ public class Proposta {
     @Override
     public int hashCode() {
         return Objects.hash(getId(), getDocumento(), getNome(), getEmail(), getEndereco(), getSalario(), getStatus());
+    }
+
+    public void toCartaoResponse(Cartao cartao) {
+
+        this.cartao = cartao;
+
     }
 }

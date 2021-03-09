@@ -21,6 +21,7 @@ import org.springframework.web.util.UriComponentsBuilder;
 
 import javax.persistence.EntityManager;
 import javax.persistence.PersistenceContext;
+import javax.persistence.Query;
 import javax.validation.Valid;
 import java.net.URI;
 import java.util.ArrayList;
@@ -38,8 +39,6 @@ public class PropostaController {
 
     @Autowired
     private CartaoRouter cartaoRouter;
-
-    private List<Proposta> propostas = new ArrayList<Proposta>();
 
     private final Logger logger = LoggerFactory.getLogger(PropostaController.class);
 
@@ -67,9 +66,6 @@ public class PropostaController {
             proposta.setStatus(response.getResultadoSolicitacao());
 
             logger.info(String.format("Proposta com id: %d é ELEGIVEL para cartão", proposta.getId()));
-
-            propostas.add(proposta);
-
         } catch (FeignException e) {
             logger.info(String.format("Proposta com id: %d não é ELEGIVEL para cartão", proposta.getId()));
             proposta.setStatus(StatusEnum.COM_RESTRICAO);
@@ -82,6 +78,13 @@ public class PropostaController {
     @Scheduled(fixedDelay = 5000)
     public void criaCartao() {
 
+        Query query = manager.createNativeQuery("SELECT * FROM propostas WHERE status = :status AND" +
+                " cartao_id is null limit 10 for update", Proposta.class);
+
+        query.setParameter("status", PropostaStatusEnum.ELEGIVEL.toString());
+
+        List<Proposta> propostas = query.getResultList();
+
         logger.info(String.format("Solicitando cadastro de cartões, cadastros necessarios: %d", propostas.size()));
         while(propostas.size() > 0) {
             Proposta proposta = propostas.get(0);
@@ -89,12 +92,13 @@ public class PropostaController {
             logger.info(String.format("Solicitnado cartão %d", proposta.getId()));
 
             CartaoResponseRouter cartaoResponse = cartaoRouter.criaCartao(proposta.toCartaoRequest());
+            proposta.toCartaoResponse(cartaoResponse.toModel(proposta));
 
-            Cartao cartao = cartaoResponse.toModel(proposta);
 
-            logger.info(String.format("Proposta id: %d cartão da proposta: %s", proposta.getId(), cartao.getNumeroCartao()));
+            logger.info(String.format("Proposta id: %d cartão da proposta: %s", proposta.getId(),
+                    proposta.getCartao().getNumeroCartao()));
 
-            manager.merge(cartao);
+            manager.merge(proposta);
 
             propostas.remove(0);
 
