@@ -1,6 +1,6 @@
 package br.com.zup.proposta.cartoes;
 
-import br.com.zup.proposta.cartoes.avisos.Aviso;
+import br.com.zup.proposta.avisos.Aviso;
 import br.com.zup.proposta.bloqueios.Bloqueio;
 import br.com.zup.proposta.cartoes.carteiras.Carteira;
 import br.com.zup.proposta.cartoes.parcelas.Parcela;

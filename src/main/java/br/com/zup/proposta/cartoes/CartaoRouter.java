@@ -1,5 +1,7 @@
 package br.com.zup.proposta.cartoes;
 
+import br.com.zup.proposta.avisos.AvisoRequest;
+import br.com.zup.proposta.avisos.AvisoResponse;
 import br.com.zup.proposta.bloqueios.BloqueioRequest;
 import br.com.zup.proposta.bloqueios.BloqueioResponse;
 import org.springframework.cloud.openfeign.FeignClient;
@@ -18,4 +20,7 @@ public interface CartaoRouter {
 
     @GetMapping("/{id}")
     CartaoResponseRouter buscaCartaoPorId(@PathVariable String id);
+
+    @PostMapping("/{id}/avisos")
+    AvisoResponse notificaAviso(@PathVariable String id, AvisoRequest request);
 }

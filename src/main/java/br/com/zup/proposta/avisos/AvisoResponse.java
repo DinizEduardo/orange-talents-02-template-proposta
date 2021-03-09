@@ -1,9 +1,8 @@
-package br.com.zup.proposta.cartoes.avisos;
+package br.com.zup.proposta.avisos;
 
 import br.com.zup.proposta.cartoes.Cartao;
 
-import javax.persistence.ManyToOne;
-import java.time.LocalDateTime;
+import java.time.LocalDate;
 
 public class AvisoResponse {
 
@@ -14,7 +13,7 @@ public class AvisoResponse {
     private Cartao cartao;
 
     public Aviso toModel() {
-        return new Aviso(LocalDateTime.parse(validoAte), destino, cartao);
+        return new Aviso(LocalDate.parse(validoAte), destino, cartao);
     }
 
     public String getValidoAte() {

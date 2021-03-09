@@ -391,3 +391,60 @@ de métrica. Vamos usar o formato do Prometheus que é o padrão da Cloud Native
 
 Endpoint com métricas expostas para uma futura coleta.
 
+## 075-AVISO-VIAGEM
+
+### Objetivo
+
+Cadastrar um aviso de viagem para o cartão.
+
+### Necessidades
+
+O portador do cartão pode realizar uma notificação para o banco, dizendo que pretende utilizar o cartão em um
+determinado destino, isso ajuda o banco no controle das fraudes.
+
+- Informar o identificador do cartão.
+- Informar o destino da viagem.
+- Informar a data do término da viagem.
+- Armazenar o instante do aviso de viagem.
+- Armazenar o IP do cliente que fez a requisição.
+- Armazenar o User Agent do cliente que fez a requisição.
+
+### Restrições
+
+- Identificador do cartão é obrigatório e deve ser informado na URL (path parameter).
+- O destino da viagem é obrigatório, ou seja, não pode ser nulo ou vazio.
+- A data do término da viagem é obrigatório, ou seja, não pode ser nulo ou uma data antiga.
+
+### Resultado Esperado
+
+- O aviso de viagem deve estar armazenada no sistema, com um identificador gerado pelo sistema.
+- Retornar **200** em caso de sucesso.
+- Retornar **400** quando violado alguma das restrições.
+- Retornar **404** quando o cartão não for encontrado.
+
+## 080-NOTIFICANDO-SISTEMA-BANCARIO-VIAGEM
+
+### Objetivo
+
+O sistema bancário precisa ser notificado que foi realizada uma notificação de aviso de viagem.
+
+### Necessidades
+
+Realizar a confirmação da notificação do aviso de viagem para o sistema bancário. A chamada deve ser realizada para o
+sistema de accounts (cards).
+
+Temos uma API específica para notificar o sistema bancário sobre o aviso de viagem, vamos analisá-la?
+
+`http://localhost:8888/swagger-ui/index.html?configUrl=/v3/api-docs/swagger-config#/`
+
+### Restrições
+
+- Identificador do cartão é obrigatório e deve ser informado na URL (path parameter).
+- O destino da viagem é obrigatório, ou seja, não pode ser nulo ou vazio.
+- A data de validade da viagem é obrigatória, ou seja, não pode ser nulo ou uma data antiga.
+
+### Resultado Esperado
+
+- Quando o sistema bancário retornar sucesso (status code na faixa 200) o aviso deve ser armazenado no sistema.
+- Quando o sistema bancário retornar erro (status code na faixa 400 ou 500) o aviso de viagem não deve ser armazenado no sistema.
+
