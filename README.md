@@ -512,4 +512,32 @@ Devemos criar uma API com as seguintes restrições:
 - Retornar **400** quando violado alguma das restrições.
 - Retornar **404** quando o cartão não for encontrado.
 
+## 095-FALHAR-NAS-CHAMADAS
+
+### Objetivo
+
+Nossos serviços precisam se comunicar com outros serviços, isso é bastante presente nos modelos de arquiteturas atuais.
+Essas comunicações podem ser simples, um serviço chamando outro, até mais complexos como por exemplo um serviço chamando
+5 diferentes serviços. Como podemos saber identificar unicamente uma requisição e entender o comportamento dessa
+requisições durante o ciclo de vida dela?
+
+### Descrição
+
+Trace distribuído é uma maneira bem simples de se entender, mas também muito efetiva de nos ajudar na tarefa de
+"rastrear" os passos de uma requisição dentro da nossa infraestrutura.
+
+A idéia consiste na criação de um ou mais identificadores externos, e repassá-lo nas chamadas entre todos os sistemas
+envolvidos. Essa técnica também ficou bastante conhecida como Correlation Id. Quando utilizamos serviços HTTP esse
+"repasse" se dá pelos HTTP Headers.
+
+Um padrão amplamente utilizado pela comunidade e o OpenTracing ou OpenTelemetry que é mantido pela [Cloud Native
+Computing Foundation](https://www.cncf.io/). Implementações como [Jaeger](https://www.jaegertracing.io/) ou [Zipkin](https://zipkin.io/) são suportadas.
+
+### Necessidades
+
+Repassar headers requeridos pelo padrão OpenTracing para todas as interações entre serviços, via HTTP Headers.
+
+### Resultado Esperado
+
+Informações sobre tracing presente em todas as requisições.
 
