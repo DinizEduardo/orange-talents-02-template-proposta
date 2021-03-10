@@ -1,7 +1,7 @@
 package br.com.zup.proposta.propostas;
 
 import br.com.zup.proposta.compartilhado.CPForCNPJ;
-import br.com.zup.proposta.compartilhado.UniqueValue;
+import br.com.zup.proposta.propostas.validator.DocumentoUnico;
 
 import javax.validation.constraints.Email;
 import javax.validation.constraints.NotBlank;
@@ -11,7 +11,7 @@ import javax.validation.constraints.Positive;
 public class PropostaRequest {
 
     @CPForCNPJ
-    @UniqueValue(fieldName = "documento", domainClass = Proposta.class)
+    @DocumentoUnico(fieldName = "documentoHashed", domainClass = Proposta.class)
     private String documento;
 
     @NotBlank

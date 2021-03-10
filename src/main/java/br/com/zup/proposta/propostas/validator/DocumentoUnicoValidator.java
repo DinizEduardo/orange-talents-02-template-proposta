@@ -1,10 +1,8 @@
-package br.com.zup.proposta.compartilhado;
+package br.com.zup.proposta.propostas.validator;
 
 import br.com.zup.proposta.compartilhado.excpetion.UniqueValueException;
-import org.springframework.http.HttpStatus;
-import org.springframework.util.Assert;
+import com.google.common.hash.Hashing;
 import org.springframework.web.client.HttpClientErrorException;
-import org.springframework.web.server.ResponseStatusException;
 
 import javax.persistence.EntityManager;
 import javax.persistence.NoResultException;
@@ -12,10 +10,10 @@ import javax.persistence.PersistenceContext;
 import javax.persistence.Query;
 import javax.validation.ConstraintValidator;
 import javax.validation.ConstraintValidatorContext;
+import java.nio.charset.StandardCharsets;
 import java.util.Collections;
-import java.util.List;
 
-public class UniqueValueValidator implements ConstraintValidator<UniqueValue, Object> {
+public class DocumentoUnicoValidator implements ConstraintValidator<DocumentoUnico, Object> {
 
     private String domainAttribute;
     private Class<?> klass;
@@ -24,7 +22,7 @@ public class UniqueValueValidator implements ConstraintValidator<UniqueValue, Ob
     private EntityManager manager;
 
     @Override
-    public void initialize(UniqueValue params) {
+    public void initialize(DocumentoUnico params) {
         domainAttribute = params.fieldName();
         klass = params.domainClass();
     }
@@ -36,15 +34,13 @@ public class UniqueValueValidator implements ConstraintValidator<UniqueValue, Ob
                 + domainAttribute +
                 " = :value");
 
-        query.setParameter("value", value);
-
-//        List<?> list = query.getResultList();
-
-//        Assert.isTrue(list.size() <=1, "Foi encontrado mais de um " + klass + " com o atributo" + domainAttribute);
+        query.setParameter("value", Hashing.sha256()
+                .hashString((CharSequence) value, StandardCharsets.UTF_8)
+                .toString());
 
         try{
             query.getSingleResult();
-            throw new UniqueValueException(Collections.singletonMap(domainAttribute, domainAttribute + " já está cadastrado"));
+            throw new UniqueValueException(Collections.singletonMap("documento", "já está cadastrado"));
         }catch (NoResultException e){
             return true;
         }

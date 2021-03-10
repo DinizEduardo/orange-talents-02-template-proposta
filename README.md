@@ -541,3 +541,21 @@ Repassar headers requeridos pelo padrão OpenTracing para todas as interações 
 
 Informações sobre tracing presente em todas as requisições.
 
+## 105-DADOS-DOS-CLIENTES-SEGURO
+
+### Objetivo
+
+Proteger os dados sensíveis dos nossos clientes.
+
+### Necessidades
+
+Armazenar o documento do cliente de maneira criptografada.
+
+### Restrições
+
+- Não deve ser possível identificar o documento do cliente na base de dados.
+
+### Resultado Esperado
+
+- O documento deve ser armazenado criptografado no banco de dados.
+

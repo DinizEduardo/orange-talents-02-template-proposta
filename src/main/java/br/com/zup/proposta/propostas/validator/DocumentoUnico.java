@@ -1,4 +1,4 @@
-package br.com.zup.proposta.compartilhado;
+package br.com.zup.proposta.propostas.validator;
 
 import javax.validation.Constraint;
 import javax.validation.Payload;
@@ -10,10 +10,10 @@ import java.lang.annotation.Target;
 import static java.lang.annotation.ElementType.FIELD;
 
 @Documented
-@Constraint(validatedBy = {UniqueValueValidator.class})
+@Constraint(validatedBy = {DocumentoUnicoValidator.class})
 @Target({FIELD})
 @Retention(RetentionPolicy.RUNTIME)
-public @interface UniqueValue {
+public @interface DocumentoUnico {
 
     String message() default "{com.zup.beanvalidation.uniquevalue}";
 

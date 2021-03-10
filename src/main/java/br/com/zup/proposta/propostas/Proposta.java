@@ -5,12 +5,15 @@ import br.com.zup.proposta.cartoes.CartaoRequestRouter;
 import br.com.zup.proposta.compartilhado.CPForCNPJ;
 import br.com.zup.proposta.status.StatusEnum;
 import br.com.zup.proposta.status.StatusRequest;
+import com.google.common.hash.Hashing;
+import org.springframework.security.crypto.encrypt.Encryptors;
 
 import javax.persistence.*;
 import javax.validation.constraints.Email;
 import javax.validation.constraints.NotBlank;
 import javax.validation.constraints.NotNull;
 import javax.validation.constraints.Positive;
+import java.nio.charset.StandardCharsets;
 import java.util.Objects;
 
 @Entity
@@ -21,7 +24,6 @@ public class Proposta {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
 
-    @CPForCNPJ
     private String documento;
 
     @NotBlank
@@ -42,6 +44,9 @@ public class Proposta {
     @OneToOne(cascade = CascadeType.MERGE)
     private Cartao cartao;
 
+    @Column(length = 64, unique = true)
+    private String documentoHashed;
+
     @Override
     public String toString() {
         return "Proposta{" +
@@ -58,11 +63,14 @@ public class Proposta {
     }
 
     public Proposta(String documento, @NotBlank String nome, @NotBlank String email, @NotBlank String endereco, @Positive Double salario) {
-        this.documento = documento;
+        this.documento = Encryptors.text("abcabc", "cbacba").encrypt(documento);
         this.nome = nome;
         this.email = email;
         this.endereco = endereco;
         this.salario = salario;
+        this.documentoHashed = Hashing.sha256()
+                .hashString(documento, StandardCharsets.UTF_8)
+                .toString();
     }
 
     public Long getId() {

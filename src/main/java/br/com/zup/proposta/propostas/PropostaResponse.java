@@ -1,5 +1,7 @@
 package br.com.zup.proposta.propostas;
 
+import org.springframework.security.crypto.encrypt.Encryptors;
+
 public class PropostaResponse {
 
     private Long id;
@@ -23,7 +25,7 @@ public class PropostaResponse {
     public PropostaResponse(Proposta proposta) {
         this.id = proposta.getId();
         this.email = proposta.getEmail();
-        this.documento = proposta.getDocumento();
+        this.documento = Encryptors.text("abcabc", "cbacba").decrypt(proposta.getDocumento());
         this.endereco = proposta.getEndereco();
         this.salario = proposta.getSalario();
         this.nome = proposta.getNome();
